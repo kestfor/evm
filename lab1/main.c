@@ -1,31 +1,26 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <time.h>
-#include <limits.h>
+#include <math.h>
+#include <stdlib.h>
 
-void bubble_sort(int *array, int len) {
-    for (int i = 0; i < len - 1; i++) {
-        for (int j = 0; j < len - i - 1; j++) {
-            if (array[j] > array[j + 1]) {
-                int tmp = array[j];
-                array[j] = array[j + 1];
-                array[j + 1] = tmp;
-            }
-        }
+double algorithm(int n) {
+    double res = 0;
+    for (int i = 0; i <= n; i++) {
+        res += pow(-1, i) / (2 * i + 1);
     }
-}
+    return res * 4;
+};
 
 int main() {
-    int n;
-    srand(time(NULL));
-    scanf("%d", &n);
-    int *array = malloc(sizeof(int) * n);
-    for (int i = 0; i < n; i++) {
-        array[i] = rand() % INT_MAX;
+    system("sync");
+    int n = 1500000000;
+    int amount_of_tests = 5;
+    struct timespec start, end;
+    double res;
+    clock_gettime(CLOCK_MONOTONIC_RAW, &start);
+    for (int i = 0; i < amount_of_tests; i++) {
+        res = algorithm(n);
     }
-
-    bubble_sort(array, n);
-    for (int i = 0; i < n; i++) {
-        printf("%d ", array[i]);
-    }
+    clock_gettime(CLOCK_MONOTONIC_RAW, &end);
+    printf("Time taken: %lf sec.\nres: %lf\n", (end.tv_sec-start.tv_sec + 0.000000001 * (end.tv_nsec-start.tv_nsec)) / amount_of_tests, res);
 }
