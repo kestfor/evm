@@ -3,9 +3,9 @@
 #include <math.h>
 #include <stdlib.h>
 
-double algorithm(int n) {
+double algorithm(long n) {
     double res = 0;
-    for (int i = 0; i <= n; i++) {
+    for (long i = 0; i <= n; i++) {
         res += pow(-1, i) / (2 * i + 1);
     }
     return res * 4;
@@ -13,14 +13,11 @@ double algorithm(int n) {
 
 int main() {
     system("sync");
-    int n = 1500000000;
-    int amount_of_tests = 5;
+    long n = 1500000000;
     struct timespec start, end;
     double res;
     clock_gettime(CLOCK_MONOTONIC_RAW, &start);
-    for (int i = 0; i < amount_of_tests; i++) {
-        res = algorithm(n);
-    }
+    res = algorithm(n);
     clock_gettime(CLOCK_MONOTONIC_RAW, &end);
-    printf("Time taken: %lf sec.\nres: %lf\n", (end.tv_sec-start.tv_sec + 0.000000001 * (end.tv_nsec-start.tv_nsec)) / amount_of_tests, res);
+    printf("Time taken: %lf sec.\nres: %lf\n", (end.tv_sec-start.tv_sec + 0.000000001 * (end.tv_nsec-start.tv_nsec)), res);
 }
