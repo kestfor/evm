@@ -1,0 +1,112 @@
+{
+    "1": {
+        "N": 5900000,
+        "main_0": "Time taken: 0.054977 sec.",
+        "main_1": "Time taken: 0.052362 sec.",
+        "main_2": "Time taken: 0.050761 sec.",
+        "main_3": "Time taken: 0.052945 sec.",
+        "main_s": "Time taken: 0.050682 sec.",
+        "main_fast": "Time taken: 0.051050 sec.",
+        "main_g": "Time taken: 0.051557 sec."
+    },
+    "2": {
+        "N": 11800000,
+        "main_0": "Time taken: 0.109244 sec.",
+        "main_1": "Time taken: 0.102536 sec.",
+        "main_2": "Time taken: 0.101444 sec.",
+        "main_3": "Time taken: 0.101360 sec.",
+        "main_s": "Time taken: 0.100429 sec.",
+        "main_fast": "Time taken: 0.102819 sec.",
+        "main_g": "Time taken: 0.102562 sec."
+    },
+    "3": {
+        "N": 23600000,
+        "main_0": "Time taken: 0.218744 sec.",
+        "main_1": "Time taken: 0.204902 sec.",
+        "main_2": "Time taken: 0.201519 sec.",
+        "main_3": "Time taken: 0.202386 sec.",
+        "main_s": "Time taken: 0.200267 sec.",
+        "main_fast": "Time taken: 0.204325 sec.",
+        "main_g": "Time taken: 0.204451 sec."
+    },
+    "4": {
+        "N": 47200000,
+        "main_0": "Time taken: 0.437322 sec.",
+        "main_1": "Time taken: 0.409149 sec.",
+        "main_2": "Time taken: 0.402309 sec.",
+        "main_3": "Time taken: 0.403719 sec.",
+        "main_s": "Time taken: 0.400560 sec.",
+        "main_fast": "Time taken: 0.407938 sec.",
+        "main_g": "Time taken: 0.408729 sec."
+    },
+    "5": {
+        "N": 94400000,
+        "main_0": "Time taken: 0.871165 sec.",
+        "main_1": "Time taken: 0.818020 sec.",
+        "main_2": "Time taken: 0.808171 sec.",
+        "main_3": "Time taken: 0.806317 sec.",
+        "main_s": "Time taken: 0.803834 sec.",
+        "main_fast": "Time taken: 0.816854 sec.",
+        "main_g": "Time taken: 0.816112 sec."
+    },
+    "6": {
+        "N": 188800000,
+        "main_0": "Time taken: 1.755399 sec.",
+        "main_1": "Time taken: 1.636640 sec.",
+        "main_2": "Time taken: 1.611348 sec.",
+        "main_3": "Time taken: 1.618151 sec.",
+        "main_s": "Time taken: 1.603694 sec.",
+        "main_fast": "Time taken: 1.634549 sec.",
+        "main_g": "Time taken: 1.628971 sec."
+    },
+    "7": {
+        "N": 377600000,
+        "main_0": "Time taken: 3.480714 sec.",
+        "main_1": "Time taken: 3.268321 sec.",
+        "main_2": "Time taken: 3.221184 sec.",
+        "main_3": "Time taken: 3.226282 sec.",
+        "main_s": "Time taken: 3.212247 sec.",
+        "main_fast": "Time taken: 3.261013 sec.",
+        "main_g": "Time taken: 3.266658 sec."
+    },
+    "8": {
+        "N": 755200000,
+        "main_0": "Time taken: 6.981877 sec.",
+        "main_1": "Time taken: 6.542188 sec.",
+        "main_2": "Time taken: 6.469843 sec.",
+        "main_3": "Time taken: 6.442654 sec.",
+        "main_s": "Time taken: 6.418913 sec.",
+        "main_fast": "Time taken: 6.543703 sec.",
+        "main_g": "Time taken: 6.521201 sec."
+    },
+    "9": {
+        "N": 1510400000,
+        "main_0": "Time taken: 14.295944 sec.",
+        "main_1": "Time taken: 13.107292 sec.",
+        "main_2": "Time taken: 12.933303 sec.",
+        "main_3": "Time taken: 12.933331 sec.",
+        "main_s": "Time taken: 12.837753 sec.",
+        "main_fast": "Time taken: 13.056418 sec.",
+        "main_g": "Time taken: 13.054037 sec."
+    },
+    "10": {
+        "N": 3020800000,
+        "main_0": "Time taken: 27.942020 sec.",
+        "main_1": "Time taken: 26.231849 sec.",
+        "main_2": "Time taken: 25.885021 sec.",
+        "main_3": "Time taken: 25.843491 sec.",
+        "main_s": "Time taken: 25.693986 sec.",
+        "main_fast": "Time taken: 26.168630 sec.",
+        "main_g": "Time taken: 26.184402 sec."
+    },
+    "11": {
+        "N": 6041600000,
+        "main_0": "Time taken: 55.800304 sec.",
+        "main_1": "Time taken: 52.288282 sec.",
+        "main_2": "Time taken: 51.760327 sec.",
+        "main_3": "Time taken: 51.817354 sec.",
+        "main_s": "Time taken: 51.361954 sec.",
+        "main_fast": "Time taken: 52.283223 sec.",
+        "main_g": "Time taken: 52.234230 sec."
+    }
+}
