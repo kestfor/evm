@@ -1,0 +1,48 @@
+algorithm:
+        pushq   %rbp            // Сохраняем указатель кадра вызвавшей программы (текущее значение регистра rbp в стек)
+        xorps   %xmm2, %xmm2    // обнуляем xmm2
+        movl    %edi, %ebp      // копируем n в ebp
+        pushq   %rbx            // добавляем в стек значение из rbx
+        xorl    %ebx, %ebx      // обнуляем ebx (это i = 0)
+        subq    $24, %rsp       // место для локальных переменных
+.L2:
+        cmpl    %ebp, %ebx      // сравниваем n и i
+        jg      .L6             // переходим если i > n
+        cvtsi2sdl   %ebx, %xmm1 // i переносим в xmm1 делаем double
+        movq    .LC1(%rip), %rax // -1 копируем в rax
+        movss   %xmm2, 12(%rsp) // копируем xmm2 в rsp + 12 (вроде в res)
+        movq    %rax, %xmm0     // в xmm0 копируем rax
+        call    pow             // вызываем pow
+        leal    1(%rbx,%rbx), %eax // в eax сохраняем адрес rbx + rbx + 1 (tmp = 2 * i + 1)
+        movss   12(%rsp), %xmm2     //  (res в xmm2)
+        incl    %ebx                // i++
+        cvtsi2ssl       %eax, %xmm1 // tmp в xmm1
+        cvtsd2ss        %xmm0, %xmm0  // double to float
+        divss   %xmm1, %xmm0    // d = p / tmp
+        addss   %xmm0, %xmm2 // res += d (в xmm2 лежит результат)
+        jmp     .L2
+.L6:
+        mulss   .LC2(%rip), %xmm2 // res * 4
+        addq    $24, %rsp   // rsp сдвигаем на первоначальное место
+        popq    %rbx        // снимаем с вершины стека в rbx
+        popq    %rbp        // снимаем с вершины стека в rbp
+        movaps  %xmm2, %xmm0    // res переносим в xmm0
+        ret                     // возврат из функции
+.LC3:
+        .string "%f"
+main:
+        pushq   %rax                    // добавляем в стек значение из rax
+        movl    $10000, %edi            // в edi хранится n
+        call    algorithm               // вызываем функцию
+        movl    $.LC3, %edi             // "%f" в edi
+        movb    $1, %al                 //  1 в al
+        cvtss2sd        %xmm0, %xmm0    // double to float
+        call    printf
+        xorl    %eax, %eax              // обнуляем eax
+        popq    %rdx                    // снимаем вершину стека в rdx
+        ret                             // возврат из функции
+.LC1:
+        .long   0
+        .long   -1074790400
+.LC2:
+        .long   1082130432

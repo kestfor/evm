@@ -1,0 +1,67 @@
+algorithm:
+        pushq   %rbp            // Сохраняем указатель кадра вызвавшей программы (текущее значение регистра rbp  стек)
+        movq    %rsp, %rbp      // копируем значение регистра rsp в rbp (создание нового стекового кадра)
+        subq    $48, %rsp       // выделяем в стеке 48 байт для локальных переменных
+        movl    %edi, -36(%rbp) // сохраняем из edi в rbp - 36 параметр n
+        pxor    %xmm0, %xmm0    // обнуляем xmm0
+        movss   %xmm0, -4(%rbp) // перемещаем из xmm0 вещественное число в res (res = 0)
+        movl    $0, -8(%rbp)    // i = 0
+        jmp     .L2             // переходим к метке .L2
+.L3:
+        pxor    %xmm0, %xmm0            // обнуляем xmm0
+        cvtsi2sdl       -8(%rbp), %xmm0 // преобразуем i из int в double и сохраняем в xmm0
+        movq    .LC1(%rip), %rax        // сохраняем -1 в rax
+        movapd  %xmm0, %xmm1            // копируем i из xmm0 в xmm1 и вроде это действие включает в себя копирование пары чисел во временное пространство процессора для использования в других вычислениях.
+        movq    %rax, %xmm0             // копируем -1 в хмм0 (теперь в xmm0: -1, в xmm1: i) можно вызывать pow
+        call    pow                     // вызываем pow
+        cvtsd2ss        %xmm0, %xmm0    // из double делаем float
+        movss   %xmm0, -12(%rbp)        // сохраняем результат функции из xmm1 в rbp - 12 (в переменную p)
+        movl    -8(%rbp), %eax          // сохраняем i в eax
+        addl    %eax, %eax              // умножаем i на 2 (на самом деле сложение)
+        addl    $1, %eax                // прибавляем 1 ()
+        movl    %eax, -16(%rbp)         // сохраняем конечное значение в tmp
+        pxor    %xmm1, %xmm1            // чистим xmm1
+        cvtsi2ssl   -16(%rbp), %xmm1    // Преобразовать знаковое целое значение из rbp - 16 (tmp) в формат короткого вещественного и поместить в младшее 32-битное поле xmm1
+        movss   -12(%rbp), %xmm0        // копируем p в xmm0
+        divss   %xmm1, %xmm0            // делим p / tmp и сохраняем в xmm0
+        movss   %xmm0, -20(%rbp)        // сохраняем p/tmp в d
+        movss   -4(%rbp), %xmm0         // res копируем в xmm0
+        addss   -20(%rbp), %xmm0        // res + d в xmm0
+        movss   %xmm0, -4(%rbp)         // xmm0 сохраняем в res (res += d)
+        addl    $1, -8(%rbp)            // i++
+.L2:
+        movl    -8(%rbp), %eax          // сохраняем в eax i
+        cmpl    -36(%rbp), %eax         // сравниваем n и i
+        jle     .L3                     // переходим к L3 если i <= n
+        movss   -4(%rbp), %xmm1         // иначе res копируем в xmm1
+        movss   .LC2(%rip), %xmm0       // в xmm0 сохраняем 4
+        mulss   %xmm1, %xmm0            // 4 * res помещается в xmm0
+        leave                           // чистим стековый кадр до прежнего состояния (эквивалентно movq %rbp, %rsp;  popq %ebp)
+        ret                             // возврат из функции
+.LC3:
+        .string "%f"
+main:
+        pushq   %rbp                // Сохраняем указатель кадра вызвавшей программы (текущее значение регистра rbp  стек)
+        movq    %rsp, %rbp          // копируем значение регистра rsp в rbp (создание нового стекового кадра)
+        subq    $16, %rsp           // выделяем 16 байт для локальных переменных
+        movl    $10000, -4(%rbp)    // сохраняем 10000 в n
+        movl    -4(%rbp), %eax      // сохраняем в eax n
+        movl    %eax, %edi          // сохраняем в edi n
+        call    algorithm           // вызываем функцию
+        movd    %xmm0, %eax         // значение функции из xmm0 сохраняем в eax
+        movl    %eax, -8(%rbp)      // сохраняем значение из eax в res
+        pxor    %xmm1, %xmm1        // обнуляем xmm1
+        cvtss2sd    -8(%rbp), %xmm1 // из single-precision floating-point в double-precision floating point и в xmm1
+        movq    %xmm1, %rax         // из xmm1 в rax
+        movq    %rax, %xmm0         // из rax в xmm0 (в итогу res хранится в xmm0)
+        movl    $.LC3, %edi         // в edi копируем "%f"
+        movl    $1, %eax            // в eax копируем 1
+        call    printf              // вызываем printf
+        movl    $0, %eax            // 0 сохраняем в eax
+        leave                       // чистим стековый кадр до прежнего состояния (эквивалентно movq %rbp, %rsp;  popq %ebp)
+        ret                         // возврат из функции
+.LC1:
+        .long   0
+        .long   -1074790400
+.LC2:
+        .long   1082130432
