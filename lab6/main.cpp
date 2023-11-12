@@ -1,5 +1,5 @@
 #include <iostream>
-#include <C:\libusb\libusb-1.0.26-binaries\libusb-MinGW-x64\include\libusb-1.0\libusb.h>
+#include <libusb-1.0/libusb.h>
 #include <stdio.h>
 #include <clocale>
 #include <vector>
