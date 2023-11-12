@@ -31,6 +31,7 @@ map<int, string> usbClasses = {
 static void printDevs(libusb_device **devs, ssize_t amount)
 {
     libusb_device *dev;
+    int defaultInd = 0;
     for (ssize_t i = 0; i < amount; i++) {
         printf("\nустройство %ld:\n", i + 1);
         dev = devs[i];
@@ -46,9 +47,9 @@ static void printDevs(libusb_device **devs, ssize_t amount)
         uint8_t classDev = desc.bDeviceClass;
         if (classDev == 0) {
             libusb_config_descriptor *config;
-            libusb_get_config_descriptor(dev, 0, &config);
-            const libusb_interface *interface = &config->interface[0];
-            const libusb_interface_descriptor *interfaceDescriptor = &interface->altsetting[0];
+            libusb_get_config_descriptor(dev, defaultInd, &config);
+            const libusb_interface *interface = &config->interface[defaultInd];
+            const libusb_interface_descriptor *interfaceDescriptor = &interface->altsetting[defaultInd];
             classDev = interfaceDescriptor->bInterfaceClass;
         }
         uint8_t idVendor = desc.idVendor;
@@ -71,6 +72,7 @@ static void printDevs(libusb_device **devs, ssize_t amount)
                 printf("not found\n");
             }
         }
+        libusb_close(handle);
     }
 }
 int main(void) {
