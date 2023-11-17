@@ -70,6 +70,7 @@ void printdev(libusb_device *dev){
             cout << "\t\t" << "класс интерфейса: " << usbClasses[(int) interdesc->bInterfaceClass] << endl;
             cout << "\t\t" << "число конечных точек: " << (int) interdesc->bNumEndpoints << endl;
             for(int k=0; k<(int)interdesc->bNumEndpoints; k++) {
+                epdesc = &interdesc->endpoint[k];
                 cout << "\t\t\tконечная точка № " << k + 1 << ':' << endl;
                 cout << "\t\t\tтип дескриптора: " << (int) epdesc->bDescriptorType << endl;
                 cout << "\t\t\tадрес конечной точки: " << (int) epdesc->bEndpointAddress << endl;
