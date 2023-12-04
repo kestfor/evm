@@ -46,11 +46,14 @@ void printdev(libusb_device *dev){
     unsigned char str[256] = "";
     int ret = libusb_open(dev, &handle);
     if (LIBUSB_SUCCESS == ret) {
-        printf("get %04x:%04x device string descriptor \n", desc.idVendor, desc.idProduct);
-    }
-    ret = libusb_get_string_descriptor_ascii(handle, desc.iProduct, str, 256);
-    if (ret > 0) {
-        printf("%s\n", str);
+        ret = libusb_get_string_descriptor_ascii(handle, desc.iProduct, str, 256);
+        if (ret > 0) {
+            printf("Название: %s\n", str);
+        }
+        ret = libusb_get_string_descriptor_ascii(handle, desc.iSerialNumber, str, 256);
+        if (ret > 0) {
+            printf("Серийный номер: %s\n", str);
+        }
     }
     // получить конфигурацию устройства
     libusb_get_config_descriptor(dev, 0, &config);
@@ -78,6 +81,7 @@ void printdev(libusb_device *dev){
         }
     }
     libusb_free_config_descriptor(config);
+    libusb_close(handle);
 }
 
 int main() {
