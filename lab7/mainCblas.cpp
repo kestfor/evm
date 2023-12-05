@@ -1,50 +1,19 @@
 #include <chrono>
 #include <iostream>
 #include <string.h>
-#include <immintrin.h>
 #include <limits.h>
+#include <cblas.h>
 using namespace std;
 
-void sub(float *minuend, float*subtrahend, float *difference, const int n) {
-    for (int i = 0; i < n; i++) {
-        const int tmp = i * n;
-        for (int j = 0; j < n; j++) {
-            difference[tmp + j] = minuend[tmp + j] - subtrahend[tmp + j];
-        }
-    }
-}
-
-void transposition(float *source, float *res, const int n) {
-
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            res[i * n + j] = source[j * n + i];
-        }
-    }
-}
-
-void add(float *addendum1, float *addendum2, float *sum, const int n) {
-    for (int i = 0; i < n; i++) {
-        const int tmp = i * n;
-        for (int j = 0; j < n; j++) {
-            sum[tmp + j] = addendum1[tmp + j] + addendum2[tmp + j];
-        }
-    }
-}
-
 void mult(float *multiplicand, float *multiplier, float*product, const int n) {
-    for (int i = 0; i < n; ++i)
-    {
-        float *p = product + i * n;
-        for (int j = 0; j < n; j++)
-            p[j] = 0;
-        for (int k = 0; k < n; ++k)
-        {
-            const float *b = multiplier + k * n;
-            const float a = multiplicand[i * n + k];
-            for (int j = 0; j < n; j++) {
-                p[j] += a * b[j];
-            }
+    cblas_sgemm(CblasRowMajor,CblasNoTrans,CblasNoTrans, n, n, n, 1.0, multiplicand, n, multiplier, n, 0.0, product, n);
+}
+
+void div(float *source, float *res, const float k, const int n) {
+    for (int i = 0; i < n; i++) {
+        const int tmp = i * n;
+        for (int j = 0; j < n; j++) {
+            res[tmp + j] = source[tmp + j] / k;
         }
     }
 }
@@ -74,11 +43,29 @@ float max2(float *matr, const int n) {
     return max2;
 }
 
-void div(float *source, float *res, const float k, const int n) {
+void sub(float *minuend, float*subtrahend, float *difference, const int n) {
     for (int i = 0; i < n; i++) {
         const int tmp = i * n;
         for (int j = 0; j < n; j++) {
-            res[tmp + j] = source[tmp + j] / k;
+            difference[tmp + j] = minuend[tmp + j] - subtrahend[tmp + j];
+        }
+    }
+}
+
+void add(float *addendum1, float *addendum2, float *sum, const int n) {
+    for (int i = 0; i < n; i++) {
+        const int tmp = i * n;
+        for (int j = 0; j < n; j++) {
+            sum[tmp + j] = addendum1[tmp + j] + addendum2[tmp + j];
+        }
+    }
+}
+
+void transposition(float *source, float *res, const int n) {
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            res[i * n + j] = source[j * n + i];
         }
     }
 }
@@ -119,16 +106,6 @@ void func(float *source, float *res, const int n, const int m) {
     delete b;
     delete tmp;
     delete identityMatr;
-}
-
-void printMatr(float *matr, const int n) {
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            cout << matr[i * n + j] << ' ';
-        }
-        cout << endl;
-    }
-    cout << endl;
 }
 
 int main() {

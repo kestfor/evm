@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string.h>
 #include <immintrin.h>
+#include <limits.h>
 using namespace std;
 
 void mult(float *multiplicand, float *multiplier, float*product, const int n) {
