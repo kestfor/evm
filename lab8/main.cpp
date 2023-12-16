@@ -59,7 +59,7 @@ int main() {
     ofstream file("data.txt");
     int *array = new int[nMax];
     const int k = 100;
-    for (int n = nMin; n <= nMax; n += 256 * 256) { //шаг 256 кб
+    for (int n = nMin; n <= nMax; n *= 2) { //шаг 256 кб
         uint64_t start = 0, end = 0;
         directArrayFill(array, n);
         uint64_t t = LONG_LONG_MAX;
