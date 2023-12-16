@@ -1,4 +1,4 @@
-#include <libusb-1.0/libusb.h>
+#include "C:/libusb/libusb-1.0.26-binaries/libusb-MinGW-x64/include/libusb-1.0/libusb.h"
 #include <cstdio>
 #include <map>
 #include <iostream>
@@ -28,46 +28,45 @@ map<int, string> usbClasses = {
         {254, "специфическое устройство"}
 };
 
-static void printDevs(libusb_device **devs, ssize_t amount)
+static void printDevs(libusb_device **devs, const ssize_t amount)
 {
-    libusb_device *dev;
-    int defaultInd = 0;
     for (ssize_t i = 0; i < amount; i++) {
         printf("\nустройство %ld:\n", i + 1);
-        dev = devs[i];
+        libusb_device *dev = devs[i];
         libusb_device_descriptor desc{};
         libusb_device_handle* handle = nullptr;
-        int ret;
-        unsigned char string[256];
-        int r = libusb_get_device_descriptor(dev, &desc);
+        const int r = libusb_get_device_descriptor(dev, &desc);
         if (r < 0) {
             fprintf(stderr, "failed to get device descriptor\n");
             return;
         }
         uint8_t classDev = desc.bDeviceClass;
         if (classDev == 0) {
+            constexpr int defaultInd = 0;
             libusb_config_descriptor *config;
             libusb_get_config_descriptor(dev, defaultInd, &config);
             const libusb_interface *interface = &config->interface[defaultInd];
             const libusb_interface_descriptor *interfaceDescriptor = &interface->altsetting[defaultInd];
+            libusb_free_config_descriptor(config);
             classDev = interfaceDescriptor->bInterfaceClass;
         }
-        uint8_t idVendor = desc.idVendor;
-        uint8_t idProduct = desc.idProduct;
-        ret = libusb_open(dev, &handle);
+        int ret = libusb_open(dev, &handle);
         if (LIBUSB_SUCCESS == ret) {
+            const uint8_t idVendor = desc.idVendor;
+            const uint8_t idProduct = desc.idProduct;
             printf("device class: %d (%s)\nvendor id: %d\nproduct id: %d\n", classDev, usbClasses[classDev].c_str(), idVendor, idProduct);
             printf("product: ");
+            unsigned char string[256];
             ret = libusb_get_string_descriptor_ascii(handle, desc.iProduct, string, sizeof(string));
             if (ret > 0) {
-                printf("%s\n", string);
+                printf("%p\n", string);
             } else {
                 printf("not found\n");
             }
             printf("serial number: ");
             ret = libusb_get_string_descriptor_ascii(handle, desc.iSerialNumber, string, sizeof(string));
             if (ret > 0) {
-                printf("%s\n", string);
+                printf("%p\n", string);
             } else {
                 printf("not found\n");
             }
@@ -75,16 +74,16 @@ static void printDevs(libusb_device **devs, ssize_t amount)
         libusb_close(handle);
     }
 }
-int main(void) {
+int main() {
     libusb_device **devs;
     libusb_context *ctx = nullptr;
-    int r = libusb_init(&ctx);
+    const int r = libusb_init(&ctx);
     if (r < 0)
         return r;
-    ssize_t cnt = libusb_get_device_list(ctx, &devs);
+    const ssize_t cnt = libusb_get_device_list(ctx, &devs);
     if (cnt < 0){
         libusb_exit(ctx);
-        return (int) cnt;
+        return static_cast<int>(cnt);
     }
     printDevs(devs, cnt);
     libusb_free_device_list(devs, 1);

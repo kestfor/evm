@@ -13,7 +13,7 @@ algorithm:
         movss   %xmm2, 12(%rsp) // копируем xmm2 в rsp + 12 (вроде в res)
         movq    %rax, %xmm0     // в xmm0 копируем rax
         call    pow             // вызываем pow
-        leal    1(%rbx,%rbx), %eax // в eax сохраняем адрес rbx + rbx + 1 (tmp = 2 * i + 1)
+        leal    1(%rbx,%rbx), %eax // в eax сохраняем rbx + rbx + 1 (tmp = 2 * i + 1)
         movss   12(%rsp), %xmm2     //  (res в xmm2)
         incl    %ebx                // i++
         cvtsi2ssl       %eax, %xmm1 // tmp в xmm1

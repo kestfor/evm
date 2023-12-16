@@ -121,10 +121,14 @@ int main() {
         }
     }
     float *aInverse = new float[n * n];
+    timespec start_process{};
+    timespec end_process{};
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &start_process);
     std::chrono::high_resolution_clock::time_point begin = std::chrono::high_resolution_clock::now();
-    func(a, aInverse, n, 10);
+    func();
+    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &end_process);
     std::chrono::high_resolution_clock::time_point end = std::chrono::high_resolution_clock::now();
-    std::cout << "\nTime difference = " << std::chrono::duration_cast<std::chrono::seconds> (end - begin).count() << "[s]" << std::endl;
+    std::cout << "\nTime difference = " << std::chrono::duration_cast<std::chrono::seconds> (end - begin).count() /  ((end_process.tv_sec - start_process.tv_sec) +  1.0e-9 * (end_process.tv_nsec - start_process.tv_nsec))<< std::endl;
     delete a;
     delete aInverse;
 }
